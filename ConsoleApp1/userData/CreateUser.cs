@@ -3,12 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace ConsoleApp1.userData;
 
-public class WriteData
+public class CreateUser
 {
     private static readonly JsonSerializerOptions Options = 
         new() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
     
-    public static void WriteDataInFile(string name, string lastName, int age)
+    public static void CreateAndWriteDataInFile(string name, string lastName, int age)
     {
         if (name != "" && lastName != "" && age != 0)
         {
@@ -21,7 +21,7 @@ public class WriteData
             Console.WriteLine("User successfully created!");
             Console.WriteLine("Now restart the app to work with it.");
             
-            File.WriteAllLinesAsync("../../testData.txt", new[] {jsonData});
+            File.WriteAllLinesAsync("../../testData.json", new[] {jsonData});
         }
     }
 }

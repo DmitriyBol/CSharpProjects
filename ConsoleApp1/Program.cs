@@ -25,10 +25,10 @@ if (answer1 == "Y" || answer1 == "y")
 
     if (name != null && lastName != null && age != 0)
     {
-        WriteData.WriteDataInFile(name, lastName, age);
+        CreateUser.CreateAndWriteDataInFile(name, lastName, age);
     }
 }
 if (answer1 == "N" || answer1 == "n")
 {
-    Console.WriteLine("answer cant be null!");
+    UserDataCollection.getUsersData();
 }
