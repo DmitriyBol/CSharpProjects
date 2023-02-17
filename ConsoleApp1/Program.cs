@@ -1,8 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using ConsoleApp1.userData;
 
 Console.WriteLine("Hello in count console app!");
 Console.WriteLine("Are you an new user? (Y - create new, N - load current by id)");
@@ -32,39 +31,4 @@ if (answer1 == "Y" || answer1 == "y")
 if (answer1 == "N" || answer1 == "n")
 {
     Console.WriteLine("answer cant be null!");
-}
-
-public class User
-{
-    public string Name { get; set; }
-    public string LastName { get; set; }
-    public int Age { get; set; }
-
-    public User(string name, string lastName, int age)
-    {
-        Name = name;
-        LastName = lastName;
-        Age = age;
-    }
-}
-
-public class WriteData
-{
-    private static readonly JsonSerializerOptions Options = 
-        new() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
-    
-    public static async Task WriteDataInFile(string name, string lastName, int age)
-    {
-        if (name != "" && lastName != "" && age != 0)
-        {
-            User newUser = new User(name, lastName, age);
-
-            var jsonData = JsonSerializer.Serialize(newUser, Options);
-            
-            Console.WriteLine("User successfully created!");
-            Console.WriteLine("Now restart the app to work with it.");
-            
-            await File.WriteAllLinesAsync("../../testData.txt", new[] {jsonData});
-        }
-    }
 }
