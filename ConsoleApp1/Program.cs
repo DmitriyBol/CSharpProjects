@@ -50,7 +50,7 @@ public class User
 
 public class WriteData
 {
-    private static readonly JsonSerializerOptions _options = 
+    private static readonly JsonSerializerOptions Options = 
         new() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
     
     public static async Task WriteDataInFile(string name, string lastName, int age)
@@ -59,7 +59,7 @@ public class WriteData
         {
             User newUser = new User(name, lastName, age);
 
-            var jsonData = JsonSerializer.Serialize(newUser, _options);
+            var jsonData = JsonSerializer.Serialize(newUser, Options);
             
             Console.WriteLine("User successfully created!");
             Console.WriteLine("Now restart the app to work with it.");

@@ -10,8 +10,8 @@
 
 >Below will be the issues list, which will be placed in notion or smth in the future.
 
->>- bug-1
->>> issue description
+>>- bug-1 - New user rewrites all data and lost current progress
+>>> Then user select create new user and comp. validates - new user data rewrites the current users file.
 
 >>- bug-2
 >>> issue description
