@@ -1,34 +1,101 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Runtime.CompilerServices;
+// console app
+// 1. first line - menu with options READY
+// 2. can create (write to file) or load a exist user (from user file)
+// 3. with logged user we can change current user data in file (read and write)
+
+// greetings
+
 using ConsoleApp1.userData;
 
 Console.WriteLine("Hello in count console app!");
-Console.WriteLine("Are you an new user? (Y - create new, N - load current by id)");
-string answer1 = Console.ReadLine();
 
-if (answer1 == null)
-{
-    Console.WriteLine("answer cant be null!");
-    return;
+// Menu options and index
+string[] menuOptions = {"New User", "Load User", "Search", "Exit"};
+// default index is 0
+var menuIndex = 0;
+
+Console.WriteLine("Please use arrow up or arrow down in menu:");
+for (var i = 0; i < menuOptions.Length; i++) {
+    if (i == menuIndex) Console.WriteLine(menuOptions[i] + " <");
+    if (i != menuIndex) Console.WriteLine(menuOptions[i]);
 }
-if (answer1 == "Y" || answer1 == "y")
-{
-    Console.WriteLine("Your select Y to create new user");
-    Console.WriteLine("please type name, lastname and age");
-    Console.Write("Name: ");
-    var name = Console.ReadLine();
-    Console.Write("Lastname: ");
-    var lastName = Console.ReadLine();
-    Console.Write("Age: ");
-    int age = Convert.ToInt32(Console.ReadLine());
 
-    if (name != null && lastName != null && age != 0)
+// DownArrow and UpArrow controls
+// rerender menu then key press, but renders only menus
+ConsoleKeyInfo keyinfo;
+do
+{
+    keyinfo = Console.ReadKey();
+    Console.Clear();
+    switch (keyinfo.Key.ToString())
     {
-        CreateUser.CreateAndWriteDataInFile(name, lastName, age);
+        case "DownArrow":
+            menuIndex++;
+            
+            // range check
+            if (menuIndex > menuOptions.Length - 1) menuIndex = menuOptions.Length - 1;
+            break;
+        
+        case "UpArrow":
+            menuIndex--;
+            
+            // range check
+            if (menuIndex < 0) menuIndex = 0;
+            break;
+    }
+    
+    // rerender menu
+    Console.WriteLine("Please use arrow up or arrow down in menu:");
+    for (var i = 0; i < menuOptions.Length; i++) {
+        if (i == menuIndex) Console.WriteLine(menuOptions[i] + " <");
+        if (i != menuIndex) Console.WriteLine(menuOptions[i]);
     }
 }
-if (answer1 == "N" || answer1 == "n")
+while (keyinfo.Key != ConsoleKey.Enter);
+
+// then user press enter we check option select and decide what do next
+if (keyinfo.Key == ConsoleKey.Enter)
 {
-    UserDataCollection.getUsersData();
+    Console.WriteLine("selected option is " + menuOptions[menuIndex]);
+
+    // New User scenario
+    if (menuOptions[menuIndex] == "New User")
+    {
+        Console.WriteLine("Enter new login");
+        var loginName = Console.ReadLine();
+
+        // user checks
+        if (loginName != null)
+        {
+            // existing checks if user didnt exit - allow to create a new one
+            bool isExist = CheckUser.IsUserExist(loginName);
+            UserData.createNewUser(isExist);
+        }
+        else
+        {
+            Console.WriteLine("Login can't be null");
+            return;
+        }
+       
+    }
+    
+    // Load User scenario
+    if (menuOptions[menuIndex] == "Load User")
+    {
+        
+    }
+    
+    // Search scenario
+    if (menuOptions[menuIndex] == "Search")
+    {
+        
+    }
+    
+    // Exit scenario
+    if (menuOptions[menuIndex] == "Exit")
+    {
+        
+    }
 }
