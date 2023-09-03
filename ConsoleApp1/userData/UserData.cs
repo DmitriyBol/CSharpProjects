@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.InteropServices.JavaScript;
-
-namespace ConsoleApp1.userData;
+﻿namespace ConsoleApp1.userData;
 
 public class UserData
 {
@@ -9,7 +6,6 @@ public class UserData
     public string name { get; set; }
     public string lastName { get; set; }
     public int age { get; set; }
-    public DateTime dateOfBirth { get; set; }
     public DateTime dateCreated { get; set; }
     public DateTime dateUpdated { get; set; }
     public DateTime dateUpdatedOnStart { get; set; }
@@ -26,16 +22,12 @@ public class UserData
             int.Parse(rawDate[2] ?? throw new InvalidOperationException("Error in Day field"))
         );
         TimeSpan difference = timeStamp.Subtract(birthDate);
-        int age = (firstDay + difference).Year - 1;
-        
-        this.newUser = true;
+
         this.name = name;
         this.lastName = lastName;
-        this.dateOfBirth = birthDate;
-        this.age = age;
-        this.dateCreated = timeStamp;
-        this.dateUpdated = timeStamp;
-        this.dateUpdatedOnStart = timeStamp;
+        this.age = (firstDay + difference).Year - 1;;
+        this.dateCreated = this.dateUpdated =  this.dateUpdatedOnStart = timeStamp;
+        this.newUser = this.dateCreated == this.dateUpdated;
     }
 
     private static void ThrowUserError(string field)
@@ -43,13 +35,8 @@ public class UserData
         throw new Exception($"Error in user field! - {field}");
     }
     
-    public static void createNewUser(bool isUserExits)
+    public static UserItem CreateNewUser(bool isUserExits)
     {
-        if (isUserExits)
-        {
-            Console.WriteLine("User with this user name is already exist!");
-            return;
-        }
         Console.WriteLine("Please enter name");
         var userName = Console.ReadLine();
         if (userName is null) ThrowUserError("userName");
@@ -64,7 +51,13 @@ public class UserData
 
         if (userName != null && userLastName != null && userDateOfBirth != null)
         {
-            UserData newUser = new UserData(userName, userLastName, userDateOfBirth);
+            UserData newUserData = new UserData(userName, userLastName, userDateOfBirth);
+            string generateLogin = newUserData.name + newUserData.lastName + newUserData.age;
+
+            UserItem newUserItem = new UserItem(generateLogin, newUserData);
+            return newUserItem;
         }
+
+        throw new InvalidOperationException();
     }
 }

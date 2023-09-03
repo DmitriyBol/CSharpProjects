@@ -71,7 +71,15 @@ if (keyinfo.Key == ConsoleKey.Enter)
         {
             // existing checks if user didnt exit - allow to create a new one
             bool isExist = CheckUser.IsUserExist(loginName);
-            UserData.createNewUser(isExist);
+            if (isExist)
+            {
+                Console.WriteLine("User with this user name is already exist!");
+            }
+            else
+            {
+                UserItem newUser = UserData.CreateNewUser(isExist);
+                UserCollection.WriteUserToBase(newUser);
+            }
         }
         else
         {
@@ -84,7 +92,7 @@ if (keyinfo.Key == ConsoleKey.Enter)
     // Load User scenario
     if (menuOptions[menuIndex] == "Load User")
     {
-        
+
     }
     
     // Search scenario

@@ -2,6 +2,12 @@
 
 public class UserItem
 {
-    public string login { get; set; }
-    public object data { get; set; }
+    public UserItem(string login, object data)
+    {
+        Login = login;
+        Data = data;
+    }
+
+    public string Login { get; set; }
+    public object Data { get; set; }
 }
