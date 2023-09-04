@@ -10,24 +10,15 @@ public class UserData
     public DateTime dateUpdated { get; set; }
     public DateTime dateUpdatedOnStart { get; set; }
     
-    public UserData(string name, string lastName, string userDateOfBirth)
+    public UserData(bool newUser, string name, string lastName, int age, DateTime dateCreated, DateTime dateUpdated, DateTime dateUpdatedOnStart)
     {
-        DateTime timeStamp = DateTime.UtcNow;
-
-        var rawDate = userDateOfBirth?.Split(',');
-        var firstDay = new DateTime(1, 1, 1);
-        DateTime birthDate = new DateTime(
-            int.Parse(rawDate?[0] ?? throw new InvalidOperationException("Error in Year field")), 
-            int.Parse(rawDate[1] ?? throw new InvalidOperationException("Error in Month field")), 
-            int.Parse(rawDate[2] ?? throw new InvalidOperationException("Error in Day field"))
-        );
-        TimeSpan difference = timeStamp.Subtract(birthDate);
-
+        this.newUser = newUser;
         this.name = name;
         this.lastName = lastName;
-        this.age = (firstDay + difference).Year - 1;;
-        this.dateCreated = this.dateUpdated =  this.dateUpdatedOnStart = timeStamp;
-        this.newUser = this.dateCreated == this.dateUpdated;
+        this.age = age;
+        this.dateCreated = dateCreated;
+        this.dateUpdated = dateUpdated;
+        this.dateUpdatedOnStart = dateUpdatedOnStart;
     }
 
     private static void ThrowUserError(string field)
@@ -38,20 +29,39 @@ public class UserData
     public static UserItem CreateNewUser(bool isUserExits)
     {
         Console.WriteLine("Please enter name");
-        var userName = Console.ReadLine();
-        if (userName is null) ThrowUserError("userName");
+        var name = Console.ReadLine();
+        if (name is null) ThrowUserError("userName");
         
         Console.WriteLine("Please enter lastName");
-        var userLastName = Console.ReadLine();
-        if (userLastName is null) ThrowUserError("userLastName");
+        var lastName = Console.ReadLine();
+        if (lastName is null) ThrowUserError("userLastName");
 
         Console.WriteLine("Please enter date of birth (YYYY,MM,DD)");
         string userDateOfBirth = Console.ReadLine();
-        if (userLastName is null) ThrowUserError("userDateOfBirth");
+        if (userDateOfBirth is null) ThrowUserError("userDateOfBirth");
 
-        if (userName != null && userLastName != null && userDateOfBirth != null)
+        if (name != null && lastName != null && userDateOfBirth != null)
         {
-            UserData newUserData = new UserData(userName, userLastName, userDateOfBirth);
+            DateTime timeStamp = DateTime.UtcNow;
+
+            var rawDate = userDateOfBirth?.Split(',');
+            var firstDay = new DateTime(1, 1, 1);
+            DateTime birthDate = new DateTime(
+                int.Parse(rawDate?[0] ?? throw new InvalidOperationException("Error in Year field")), 
+                int.Parse(rawDate[1] ?? throw new InvalidOperationException("Error in Month field")), 
+                int.Parse(rawDate[2] ?? throw new InvalidOperationException("Error in Day field"))
+            );
+            TimeSpan difference = timeStamp.Subtract(birthDate);
+            var dayOfBirthCalc = (firstDay + difference).Year - 1;
+            
+            var newUserData = new UserData(
+                newUser: false, 
+                name, 
+                lastName, 
+                age: dayOfBirthCalc, 
+                timeStamp, 
+                timeStamp, 
+                timeStamp);
             string generateLogin = newUserData.name + newUserData.lastName + newUserData.age;
 
             UserItem newUserItem = new UserItem(generateLogin, newUserData);

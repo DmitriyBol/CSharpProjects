@@ -11,14 +11,18 @@ public class UserCollection
 
     public UserItem[] Data { get; set; }
     
+    // GET LIST OF USERS
     public static UserItem[] GetUsersFromBase()
     {
         // pick a data
         var rawData = File.ReadAllText("../../testData.json");
-        UserCollection? usersObject = JsonSerializer.Deserialize<UserCollection>(rawData) ?? throw new Exception();
+        
+        UserCollection usersObject = JsonSerializer.Deserialize<UserCollection>(rawData)! ?? throw new Exception();
+        
         return usersObject.Data;
     }
     
+    // GET ONE USER
     public static UserItem PickUserFromBase(string loginName)
     {
         UserItem[] usersObject = GetUsersFromBase();
@@ -31,16 +35,47 @@ public class UserCollection
         throw new Exception("Error! User not found!");
     }
     
+    // POST USER to USERS
     public static void WriteUserToBase(UserItem userItem)
     {
-        // read current data
         UserItem[] userListArray = GetUsersFromBase();
-
         UserItem[] newList = userListArray.Append(userItem).ToArray();
 
         UserCollection rawData = new UserCollection(newList);
         string jsonData = JsonSerializer.Serialize(rawData);
 
         File.WriteAllText("../../testData.json", jsonData);
+    }
+    
+    // DELETE USER from USERS
+    public static void DeleteUserFromBase(string userLogin)
+    {
+        var usersObject = GetUsersFromBase();
+        var userIndex = Array.FindIndex(usersObject, user => user.Login == userLogin);
+
+        if (userIndex == -1)
+        {
+            Console.WriteLine("Error in delete user from data base, user with this login not found!");
+        }
+        else
+        {
+            UserItem[] newUsersList = usersObject.Where(elem => elem.Login != userLogin).ToArray();
+            UserCollection rawData = new UserCollection(newUsersList);
+            string jsonData = JsonSerializer.Serialize(rawData);
+            
+            File.WriteAllText("../../testData.json", jsonData);
+        }
+    }
+    
+    // GET ONE USER POST to USERS (Update)
+    public static void UpdateUserToBase(string userLogin)
+    {
+        UserItem currentUser = PickUserFromBase(userLogin);
+        DeleteUserFromBase(userLogin);
+        var timeStamp = DateTime.UtcNow;
+        
+        if (currentUser.Data?.dateUpdated != null) currentUser.Data.dateUpdated = timeStamp;
+        
+        WriteUserToBase(currentUser);
     }
 }

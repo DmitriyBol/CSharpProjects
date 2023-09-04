@@ -22,6 +22,9 @@ for (var i = 0; i < menuOptions.Length; i++) {
     if (i != menuIndex) Console.WriteLine(menuOptions[i]);
 }
 
+var loginName2 = Console.ReadLine();
+if (loginName2 != null) UserCollection.UpdateUserToBase(loginName2);
+
 // DownArrow and UpArrow controls
 // rerender menu then key press, but renders only menus
 ConsoleKeyInfo keyinfo;

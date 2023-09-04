@@ -2,12 +2,12 @@
 
 public class UserItem
 {
-    public UserItem(string login, object data)
+    public UserItem(string login, UserData data)
     {
         Login = login;
         Data = data;
     }
 
     public string Login { get; set; }
-    public object Data { get; set; }
+    public UserData Data { get; set; }
 }
