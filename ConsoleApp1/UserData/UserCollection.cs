@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using ConsoleApp1.DataBase;
 
 namespace ConsoleApp1.userData;
 
@@ -15,7 +16,7 @@ public class UserCollection
     public static UserItem[] GetUsersFromBase()
     {
         // pick a data
-        var rawData = File.ReadAllText("../../testData.json");
+        var rawData = File.ReadAllText(DataBaseCollection.DataBasePath);
         
         UserCollection usersObject = JsonSerializer.Deserialize<UserCollection>(rawData)! ?? throw new Exception();
         
@@ -44,7 +45,7 @@ public class UserCollection
         UserCollection rawData = new UserCollection(newList);
         string jsonData = JsonSerializer.Serialize(rawData);
 
-        File.WriteAllText("../../testData.json", jsonData);
+        File.WriteAllText(DataBaseCollection.DataBasePath, jsonData);
     }
     
     // DELETE USER from USERS
@@ -63,7 +64,7 @@ public class UserCollection
             UserCollection rawData = new UserCollection(newUsersList);
             string jsonData = JsonSerializer.Serialize(rawData);
             
-            File.WriteAllText("../../testData.json", jsonData);
+            File.WriteAllText(DataBaseCollection.DataBasePath, jsonData);
         }
     }
     
