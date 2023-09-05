@@ -1,6 +1,8 @@
 ﻿Simple IDK app for:
 ==
 
+UserScoreApp
+=
 app with no reason, just for fun.
 1. Simple console menu with points. (Update, create, high score)
 2. User creation, editing, saving and changing. (User Collection)
