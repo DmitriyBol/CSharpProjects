@@ -11,7 +11,7 @@ public class LoadUser
         DateTime timeStamp = DateTime.UtcNow;
         bool isCanLoad = false;
         
-        UserItem user = new UserItem("", new UserData(false, "", "", 0, timeStamp,timeStamp,timeStamp));
+        UserItem user = new UserItem("", new UserData(false, "", "", 0,0, timeStamp,timeStamp,timeStamp));
 
         if (loginName is not null)
         {
@@ -22,7 +22,12 @@ public class LoadUser
         if (loginName is not null && isCanLoad)
         {
             Console.Clear();
-            Console.WriteLine($"current user is {user.Login}");
+            Console.WriteLine($"current user is {user.Login}! Got any changes?");
+
+            Console.WriteLine("please type points (they will be added to you main score)");
+            var points = Console.ReadLine();
+            
+            UserCollection.UpdateUserScoreToBase(loginName, int.Parse(points));
         }
     }
 }

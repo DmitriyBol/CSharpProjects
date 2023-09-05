@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Data.SqlTypes;
+using System.Text.Json;
 using ConsoleApp1.DataBase;
 
 namespace ConsoleApp1.userData;
@@ -78,5 +79,24 @@ public class UserCollection
         if (currentUser.Data?.dateUpdated != null) currentUser.Data.dateUpdated = timeStamp;
         
         WriteUserToBase(currentUser);
+    }
+    
+    // GET USER POST to USERS (Update)
+    public static void UpdateUserScoreToBase(string userLogin, int points)
+    {
+        UserItem currentUser = PickUserFromBase(userLogin);
+        var timeStamp = DateTime.UtcNow;
+        int oldScore = currentUser.Data.score;
+        
+        if (currentUser.Data?.dateUpdated != null)
+        {
+            DeleteUserFromBase(userLogin);
+            
+            currentUser.Data.dateUpdated = timeStamp;
+            currentUser.Data.score += points;
+            
+            Console.WriteLine($"user {currentUser.Login} has new score {currentUser.Data.score} (was {oldScore})");
+            WriteUserToBase(currentUser);
+        }
     }
 }

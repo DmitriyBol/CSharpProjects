@@ -2,7 +2,7 @@
 
 public static class MenuMain
 {
-    public static string[] MenuOptions => new[] {"New User", "Load User", "Search", "Exit"};
+    public static string[] MenuOptions => new[] {"New User", "Load User", "HighScore", "Delete User", "Exit"};
     private static int _menuIndex = 0;
 
     public static void MenuControls(string[] options)
@@ -46,6 +46,7 @@ public static class MenuMain
         
         if (keyinfo.Key == ConsoleKey.Enter)
         {
+            Console.Clear();
             Console.WriteLine($"Selected option {options[_menuIndex]}");
             MenuSelect.MenuSelected(options[_menuIndex]);
         }

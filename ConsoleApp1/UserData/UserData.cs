@@ -6,16 +6,18 @@ public class UserData
     public string name { get; set; }
     public string lastName { get; set; }
     public int age { get; set; }
+    public int score { get; set; }
     public DateTime dateCreated { get; set; }
     public DateTime dateUpdated { get; set; }
     public DateTime dateUpdatedOnStart { get; set; }
     
-    public UserData(bool newUser, string name, string lastName, int age, DateTime dateCreated, DateTime dateUpdated, DateTime dateUpdatedOnStart)
+    public UserData(bool newUser, string name, string lastName, int age, int score, DateTime dateCreated, DateTime dateUpdated, DateTime dateUpdatedOnStart)
     {
         this.newUser = newUser;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+        this.score = score;
         this.dateCreated = dateCreated;
         this.dateUpdated = dateUpdated;
         this.dateUpdatedOnStart = dateUpdatedOnStart;
@@ -58,7 +60,8 @@ public class UserData
                 newUser: false, 
                 name, 
                 lastName, 
-                age: dayOfBirthCalc, 
+                age: dayOfBirthCalc,
+                0,
                 timeStamp, 
                 timeStamp, 
                 timeStamp);
