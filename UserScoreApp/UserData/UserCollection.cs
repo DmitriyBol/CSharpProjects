@@ -17,7 +17,7 @@ public class UserCollection
     public static UserItem[] GetUsersFromBase()
     {
         // pick a data
-        var rawData = File.ReadAllText(DataBaseCollection.DataBasePath);
+        string rawData = File.ReadAllText(DataBaseCollection.DataBasePath);
         
         UserCollection usersObject = JsonSerializer.Deserialize<UserCollection>(rawData)! ?? throw new Exception();
         
@@ -29,7 +29,7 @@ public class UserCollection
     {
         UserItem[] usersObject = GetUsersFromBase();
 
-        foreach (var item in usersObject)
+        foreach (UserItem item in usersObject)
         {
             if (item.Login == loginName) return item;
         }
@@ -52,7 +52,7 @@ public class UserCollection
     // DELETE USER from USERS
     public static void DeleteUserFromBase(string userLogin)
     {
-        var usersObject = GetUsersFromBase();
+        UserItem[] usersObject = GetUsersFromBase();
         var userIndex = Array.FindIndex(usersObject, user => user.Login == userLogin);
 
         if (userIndex == -1)
@@ -74,7 +74,7 @@ public class UserCollection
     {
         UserItem currentUser = PickUserFromBase(userLogin);
         DeleteUserFromBase(userLogin);
-        var timeStamp = DateTime.UtcNow;
+        DateTime timeStamp = DateTime.UtcNow;
         
         if (currentUser.Data?.dateUpdated != null) currentUser.Data.dateUpdated = timeStamp;
         
@@ -85,7 +85,7 @@ public class UserCollection
     public static void UpdateUserScoreToBase(string userLogin, int points)
     {
         UserItem currentUser = PickUserFromBase(userLogin);
-        var timeStamp = DateTime.UtcNow;
+        DateTime timeStamp = DateTime.UtcNow;
         int oldScore = currentUser.Data.score;
         
         if (currentUser.Data?.dateUpdated != null)
@@ -94,6 +94,7 @@ public class UserCollection
             
             currentUser.Data.dateUpdated = timeStamp;
             currentUser.Data.score += points;
+            currentUser.Data.newUser = currentUser.Data.dateUpdated == currentUser.Data.dateCreated;
             
             Console.WriteLine($"user {currentUser.Login} has new score {currentUser.Data.score} (was {oldScore})");
             WriteUserToBase(currentUser);

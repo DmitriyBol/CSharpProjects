@@ -49,9 +49,9 @@ public class UserData
             var rawDate = userDateOfBirth?.Split(',');
             var firstDay = new DateTime(1, 1, 1);
             DateTime birthDate = new DateTime(
-                int.Parse(rawDate?[0] ?? throw new InvalidOperationException("Error in Year field")), 
-                int.Parse(rawDate[1] ?? throw new InvalidOperationException("Error in Month field")), 
-                int.Parse(rawDate[2] ?? throw new InvalidOperationException("Error in Day field"))
+                ushort.Parse(rawDate?[0] ?? throw new InvalidOperationException("Error in Year field")), 
+                byte.Parse(rawDate[1] ?? throw new InvalidOperationException("Error in Month field")), 
+                byte.Parse(rawDate[2] ?? throw new InvalidOperationException("Error in Day field"))
             );
             TimeSpan difference = timeStamp.Subtract(birthDate);
             var dayOfBirthCalc = (firstDay + difference).Year - 1;

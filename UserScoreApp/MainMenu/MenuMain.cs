@@ -8,7 +8,7 @@ public static class MenuMain
     public static void MenuControls(string[] options)
     {
         Console.WriteLine("Please use arrow up or arrow down in menu:");
-        for (var i = 0; i < options.Length; i++) {
+        for (byte i = 0; i < options.Length; i++) {
             if (i == _menuIndex) Console.WriteLine(options[i] + " <");
             if (i != _menuIndex) Console.WriteLine(options[i]);
         }
@@ -37,7 +37,7 @@ public static class MenuMain
     
             // rerender menu
             Console.WriteLine("Please use arrow up or arrow down in menu:");
-            for (var i = 0; i < options.Length; i++) {
+            for (byte i = 0; i < options.Length; i++) {
                 if (i == _menuIndex) Console.WriteLine(options[i] + " <");
                 if (i != _menuIndex) Console.WriteLine(options[i]);
             }
